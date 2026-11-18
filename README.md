@@ -1,6 +1,10 @@
 # CrestFlow
 
-CrestFlow is an AI-augmented, non-custodial DeFi portfolio management backend. It enables users to define investment goals, receive AI-generated strategy plans, and execute multi-step DeFi operations — including cross-chain transfers and lending/liquidity positions — across EVM and Solana networks. The system enforces compliance at every execution boundary through a mandatory nine-check policy engine and provides two distinct integration paths depending on whether the user holds a Turnkey embedded wallet or an externally-managed wallet.
+CrestFlow is a non-custodial, AI-augmented DeFi portfolio management backend. Users define investment goals through a natural-language copilot interface; six specialized intelligence engines then analyse portfolio composition, score risk, rank yield opportunities, and generate a deterministic execution plan. That plan is routed through a mandatory nine-check policy engine before any on-chain action is taken — ensuring every transaction is compliant, authorized, and within the user's risk parameters.
+
+The system operates across EVM-compatible networks (Ethereum, Base, Arbitrum) and Solana, supporting spot swaps, lending, liquidity provision, and USDC cross-chain transfers via Circle CCTP V2. Cryptographic signing is handled exclusively by Turnkey's Trusted Execution Environment — private keys never enter application memory. A lightweight x402 micropayment layer gates access to AI-generated financial intelligence, settling at \$0.01 per query on Base USDC.
+
+CrestFlow exposes two integration paths: **Path A** provides a fully embedded wallet with autonomous AUTOPILOT execution; **Path B** accommodates externally-managed wallets in a manual or read-only capacity. Both paths share the same execution pipeline, policy enforcement, and audit trail.
 
 ---
 
