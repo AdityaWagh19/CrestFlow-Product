@@ -1,0 +1,96 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"trebuchet ms, verdana, arial, sans-serif","fontSize":"14px","background":"#ffffff","primaryColor":"#ffffff","primaryTextColor":"#000000","primaryBorderColor":"#000000","secondaryColor":"#ffffff","secondaryTextColor":"#000000","secondaryBorderColor":"#000000","tertiaryColor":"#ffffff","tertiaryTextColor":"#000000","tertiaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","mainBkg":"#ffffff","nodeBorder":"#000000","clusterBkg":"#ffffff","clusterBorder":"#000000","edgeLabelBackground":"#ffffff","titleColor":"#000000","noteBkgColor":"#ffffff","noteTextColor":"#000000","noteBorderColor":"#000000","actorBkg":"#ffffff","actorBorder":"#000000","actorTextColor":"#000000","actorLineColor":"#000000","signalColor":"#000000","signalTextColor":"#000000","labelBoxBkgColor":"#ffffff","labelBoxBorderColor":"#000000","labelTextColor":"#000000","loopTextColor":"#000000","activationBkgColor":"#ffffff","activationBorderColor":"#000000","sequenceNumberColor":"#000000","altBackground":"#ffffff","classText":"#000000","attributeBackgroundColorOdd":"#ffffff","attributeBackgroundColorEven":"#ffffff","stateBkg":"#ffffff","stateBorder":"#000000","compositeBackground":"#ffffff","compositeBorder":"#000000","compositeTitleBackground":"#ffffff","stateLabelColor":"#000000","transitionColor":"#000000","transitionLabelColor":"#000000","sectionBkgColor":"#ffffff","altSectionBkgColor":"#ffffff","sectionBkgColor2":"#ffffff","taskBkgColor":"#ffffff","taskBorderColor":"#000000","taskTextColor":"#000000","taskTextDarkColor":"#000000","taskTextOutsideColor":"#000000","taskTextLightColor":"#000000","doneTaskBkgColor":"#ffffff","doneTaskBorderColor":"#000000","activeTaskBkgColor":"#ffffff","activeTaskBorderColor":"#000000","critBkgColor":"#ffffff","critBorderColor":"#000000","gridColor":"#000000","todayLineColor":"#000000"}}}%%
+%% CrestFlow - Domain Class Diagram (report level)
+%% Type: UML class diagram
+%% Rule: business records and the decision chain only. Enums and table detail live in canonical_schemas.md.
+classDiagram
+  direction LR
+
+  class User {
+    +string googleSub
+    +KycStatus kycStatus
+    +KycTier kycTier
+  }
+
+  class AddressScope {
+    +string address
+    +Chain chain
+    +ExecutionMode executionMode
+  }
+
+  class GoalProfile {
+    +Persona persona
+    +Usd maxUsdPerTransaction
+  }
+
+  class PortfolioSnapshot {
+    +Usd totalValueUsd
+    +DataQuality dataQuality
+  }
+
+  class Position {
+    +Chain chain
+    +ProtocolId protocol
+    +Usd valueUsd
+  }
+
+  class RiskSnapshot {
+    +number riskScore
+    +number adjustedThreshold
+  }
+
+  class YieldOpportunity {
+    +ProtocolId protocol
+    +Percent twapApy7dPercent
+  }
+
+  class StrategyPlan {
+    +DriftUrgency urgency
+    +Usd totalValueUsd
+  }
+
+  class ExecutionIntent {
+    +ExecutionMode executionMode
+    +DriftUrgency urgency
+  }
+
+  class PolicyDecision {
+    +PolicyDecisionStatus decision
+    +string policyVersion
+  }
+
+  class CctpTransfer {
+    +Chain sourceChain
+    +CctpTransferStatus status
+  }
+
+  class AuditEntry {
+    +UUID eventId
+    +AuditCategory category
+    +AuditAction action
+  }
+
+  class PaymentRecord {
+    +PaymentNetwork network
+    +BaseUnits amount
+    +PaymentStatus status
+  }
+
+  User "1" --> "0..*" AddressScope : owns
+  User "1" --> "0..1" GoalProfile : sets
+  User "1" --> "0..*" PortfolioSnapshot : has
+  User "1" --> "0..*" StrategyPlan : receives
+  User "0..1" --> "0..*" AuditEntry : generates
+  User "0..1" --> "0..*" PaymentRecord : pays
+
+  PortfolioSnapshot "1" *-- "0..*" Position : contains
+  PortfolioSnapshot "1" --> "0..*" RiskSnapshot : analyzed by
+  RiskSnapshot "1" --> "0..*" StrategyPlan : informs
+  YieldOpportunity "1" --> "0..*" StrategyPlan : informs
+
+  StrategyPlan "1" --> "0..*" ExecutionIntent : produces
+  ExecutionIntent "1" --> "1" PolicyDecision : evaluated by
+  ExecutionIntent "1" --> "0..1" CctpTransfer : may bridge
+
+  note for User "googleSub is the identity anchor, email is mutable"
+  note for PolicyDecision "Exactly nine check results, no short-circuit"
+  note for CctpTransfer "USDC only, CCTP V2, fail closed otherwise"

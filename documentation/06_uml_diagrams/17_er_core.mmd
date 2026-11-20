@@ -1,0 +1,98 @@
+%%{init: {"theme":"base","htmlLabels":false,"themeVariables":{"fontFamily":"trebuchet ms, verdana, arial, sans-serif","fontSize":"14px","background":"#ffffff","primaryColor":"#ffffff","primaryTextColor":"#000000","primaryBorderColor":"#000000","secondaryColor":"#ffffff","secondaryTextColor":"#000000","secondaryBorderColor":"#000000","tertiaryColor":"#ffffff","tertiaryTextColor":"#000000","tertiaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","mainBkg":"#ffffff","nodeBorder":"#000000","clusterBkg":"#ffffff","clusterBorder":"#000000","edgeLabelBackground":"#ffffff","titleColor":"#000000","noteBkgColor":"#ffffff","noteTextColor":"#000000","noteBorderColor":"#000000","actorBkg":"#ffffff","actorBorder":"#000000","actorTextColor":"#000000","actorLineColor":"#000000","signalColor":"#000000","signalTextColor":"#000000","labelBoxBkgColor":"#ffffff","labelBoxBorderColor":"#000000","labelTextColor":"#000000","loopTextColor":"#000000","activationBkgColor":"#ffffff","activationBorderColor":"#000000","sequenceNumberColor":"#000000","altBackground":"#ffffff","classText":"#000000","attributeBackgroundColorOdd":"#ffffff","attributeBackgroundColorEven":"#ffffff","stateBkg":"#ffffff","stateBorder":"#000000","compositeBackground":"#ffffff","compositeBorder":"#000000","compositeTitleBackground":"#ffffff","stateLabelColor":"#000000","transitionColor":"#000000","transitionLabelColor":"#000000","sectionBkgColor":"#ffffff","altSectionBkgColor":"#ffffff","sectionBkgColor2":"#ffffff","taskBkgColor":"#ffffff","taskBorderColor":"#000000","taskTextColor":"#000000","taskTextDarkColor":"#000000","taskTextOutsideColor":"#000000","taskTextLightColor":"#000000","doneTaskBkgColor":"#ffffff","doneTaskBorderColor":"#000000","activeTaskBkgColor":"#ffffff","activeTaskBorderColor":"#000000","critBkgColor":"#ffffff","critBorderColor":"#000000","gridColor":"#000000","todayLineColor":"#000000"}}}%%
+%% CrestFlow - Core Entity-Relationship Diagram (report level)
+%% Type: ER diagram; logical entities, not the full physical schema.
+erDiagram
+  USERS {
+    uuid id PK
+    string google_sub UK
+    string kyc_status
+  }
+
+  ADDRESS_SCOPES {
+    uuid id PK
+    uuid user_id FK
+    string execution_mode
+  }
+
+  KYC_RECORDS {
+    uuid id PK
+    uuid user_id FK
+    string status
+  }
+
+  GOAL_PROFILES {
+    uuid id PK
+    uuid user_id FK
+    string persona
+  }
+
+  PORTFOLIO_SNAPSHOTS {
+    uuid id PK
+    uuid user_id FK
+    numeric total_value_usd
+  }
+
+  POSITIONS {
+    uuid id PK
+    uuid snapshot_id FK
+    numeric value_usd
+  }
+
+  RISK_SNAPSHOTS {
+    uuid id PK
+    uuid snapshot_id FK
+    numeric risk_score
+  }
+
+  YIELD_OPPORTUNITIES {
+    uuid id PK
+    string protocol
+    numeric twap_apy_7d
+  }
+
+  STRATEGY_PLANS {
+    uuid id PK
+    uuid user_id FK
+    string urgency
+  }
+
+  EXECUTION_INTENTS {
+    uuid id PK
+    uuid plan_id FK
+    string execution_mode
+  }
+
+  POLICY_DECISIONS {
+    uuid id PK
+    uuid plan_id FK
+    string decision
+  }
+
+  AUDIT_ENTRIES {
+    uuid event_id PK
+    timestamptz created_at PK
+    string action
+  }
+
+  PAYMENTS {
+    uuid id PK
+    uuid user_id FK
+    string status
+  }
+
+  USERS ||--o{ ADDRESS_SCOPES : owns
+  USERS ||--o{ KYC_RECORDS : submits
+  USERS ||--o{ GOAL_PROFILES : sets
+  USERS ||--o{ PORTFOLIO_SNAPSHOTS : has
+  USERS ||--o{ STRATEGY_PLANS : receives
+  USERS o|--o{ AUDIT_ENTRIES : generates
+  USERS o|--o{ PAYMENTS : pays
+
+  PORTFOLIO_SNAPSHOTS ||--o{ POSITIONS : contains
+  PORTFOLIO_SNAPSHOTS ||--o{ RISK_SNAPSHOTS : analyzed_by
+  RISK_SNAPSHOTS ||--o{ STRATEGY_PLANS : informs
+  YIELD_OPPORTUNITIES ||--o{ STRATEGY_PLANS : informs
+
+  STRATEGY_PLANS ||--o{ EXECUTION_INTENTS : produces
+  STRATEGY_PLANS ||--o{ POLICY_DECISIONS : evaluated_for
+  EXECUTION_INTENTS ||--o| POLICY_DECISIONS : gated_by

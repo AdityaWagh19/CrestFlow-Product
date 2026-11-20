@@ -21,7 +21,7 @@ The platform integrates AI-driven intelligence engines, deterministic transactio
 11. [Release Gates](#11-release-gates)
 12. [Repository Structure](#12-repository-structure)
 13. [Documentation Index](#13-documentation-index)
-14. [Open Decisions and Known Limitations](#14-open-decisions-and-known-limitations)
+14. [Implementation Validations and Known Limitations](#14-implementation-validations-and-known-limitations)
 
 ---
 
@@ -289,25 +289,15 @@ crestflow-product/
     │   ├── engine4_strategy_optimization.md
     │   ├── engine5_user_intelligence.md
     │   └── engine6_execution_intelligence.md
-    ├── 04_uml_pack/
-    │   ├── 00_INDEX.md
-    │   ├── 01_component_diagram.md
-    │   ├── 02_class_diagram.md
-    │   ├── 03_seq_onboarding_kyc.md
-    │   ├── 04_seq_policy_evaluation.md
-    │   ├── 05_seq_transaction_execution.md
-    │   ├── 06_seq_cctp_bridge.md
-    │   ├── 07_seq_x402_payment.md
-    │   ├── 08_state_saga_lifecycle.md
-    │   ├── 09_state_kyc_lifecycle.md
-    │   ├── 10_state_delegation_lifecycle.md
-    │   ├── 11_deployment_diagram.md
-    │   ├── 12–19_BE_project_diagrams.md  # System arch, DFDs, use case, activity, ER, Gantt, SDLC
-    │   └── 20_unresolved_decisions.md
     ├── 05_research_and_audits/
     │   ├── AUDIT_REPORT.md
+    │   ├── REMEDIATION_REPORT.md
     │   ├── literature_survey.md
     │   └── integration_audit_report.md
+    ├── 06_uml_diagrams/
+    │   ├── README.md
+    │   ├── *.mmd                         # 19 Mermaid diagram sources
+    │   └── png/                          # 19 rendered PNGs
     └── assets/
         └── *.png                         # Architecture diagrams
 ```
@@ -316,22 +306,22 @@ crestflow-product/
 
 ## 13. Documentation Index
 
-The master index at [`documentation/00_DOCUMENT_INDEX.md`](documentation/00_DOCUMENT_INDEX.md) lists every file with its version, status (finalized / draft / proposed), and description.
+The master index at [`documentation/00_DOCUMENT_INDEX.md`](documentation/00_DOCUMENT_INDEX.md) lists every file with its class, owner, version, and scope.
 
-The UML and architecture specification pack at [`documentation/04_uml_pack/00_INDEX.md`](documentation/04_uml_pack/00_INDEX.md) covers 21 Lucidchart-ready diagram specifications, their construction order, and cross-diagram dependencies.
+The current diagram pack at [`documentation/06_uml_diagrams/README.md`](documentation/06_uml_diagrams/README.md) contains 19 Mermaid sources and their rendered PNGs, with notation, render instructions, and a decision-traceability matrix.
 
 All canonical architecture decisions and type-level standards are consolidated in [`documentation/01_canonical/CANONICAL_DECISIONS.md`](documentation/01_canonical/CANONICAL_DECISIONS.md).
 
 ---
 
-## 14. Open Decisions and Known Limitations
+## 14. Implementation Validations and Known Limitations
 
-Unresolved architectural questions, conditional decisions, and flagged contradictions are tracked in [`documentation/04_uml_pack/20_unresolved_decisions.md`](documentation/04_uml_pack/20_unresolved_decisions.md).
+All architecture and policy decisions are resolved in [`documentation/01_canonical/CANONICAL_DECISIONS.md`](documentation/01_canonical/CANONICAL_DECISIONS.md) v1.2. Remaining items are implementation validations, not open design choices; their gates are recorded in the decision record and in [`documentation/05_research_and_audits/REMEDIATION_REPORT.md`](documentation/05_research_and_audits/REMEDIATION_REPORT.md).
 
-Key open items:
+Implementation validations:
 
-- **KYC provider:** Selected provider is pending integration validation; fallback is undecided.
-- **Solana signing via TEE:** Key type compatibility requires validation against the signing provider.
-- **x402 testnet support:** Facilitator endpoint testnet availability is unconfirmed.
-- **Fast CCTP fee quoting:** Fee cap implementation requires a fee-quoting integration step not yet fully specified.
-- **Automated execution on perpetuals venues:** Currently limited to read-only display; not permanently closed.
+- **KYC provider:** HyperVerge is selected pending the D9 two-week sandbox/webhook spike; Persona or Sumsub is the fallback.
+- **Solana signing:** Turnkey TEE signing on Solana Devnet must validate key-type compatibility before release.
+- **x402 facilitator:** Production uses the official facilitator on Base; testnet availability is validated during integration.
+- **Fast CCTP fees:** The quoted fee cap is defined in D5; the adapter must source the live quote before enabling Fast.
+- **Perpetuals execution:** GMX is read-only in MVP (D2); automated perpetual execution stays Phase 2.

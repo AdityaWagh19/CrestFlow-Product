@@ -1,0 +1,28 @@
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Arial, Helvetica, sans-serif','fontSize':'14px','primaryColor':'#ffffff','primaryTextColor':'#000000','primaryBorderColor':'#000000','lineColor':'#000000','secondaryColor':'#ffffff','secondaryTextColor':'#000000','secondaryBorderColor':'#000000','tertiaryColor':'#ffffff','tertiaryTextColor':'#000000','tertiaryBorderColor':'#000000','actorBkg':'#ffffff','actorBorder':'#000000','actorTextColor':'#000000','actorLineColor':'#000000','signalColor':'#000000','signalTextColor':'#000000','labelBoxBkgColor':'#ffffff','labelBoxBorderColor':'#000000','labelTextColor':'#000000','loopTextColor':'#000000','activationBkgColor':'#ffffff','activationBorderColor':'#000000','sequenceNumberColor':'#000000','altBackground':'#ffffff','noteBkgColor':'#ffffff','noteTextColor':'#000000','noteBorderColor':'#000000'}}}%%
+%% CrestFlow - Sequence Diagram: Execution Pipeline (report level)
+%% Type: UML sequence diagram
+%% Rule: approval gate and signing path only. The canonical D7 order is stated in a note.
+sequenceDiagram
+  actor Trigger as User or Scheduler
+  participant FLOW as Planning and Build
+  participant PE as Policy Engine
+  participant CCE as CCE
+  participant PSM as Portfolio State
+  participant CHAIN as Chain
+
+  Trigger->>FLOW: trigger
+  FLOW->>PE: SimulationPassedPackage
+  PE-->>FLOW: PolicyDecision
+
+  alt APPROVED
+    FLOW->>CCE: authorized package
+    CCE->>CHAIN: broadcast
+    CHAIN-->>CCE: receipt
+    CCE->>PSM: reconcile
+    PSM-->>Trigger: complete
+  else BLOCKED
+    PE-->>Trigger: failure summary
+  end
+
+  note over FLOW: D7 order is E6, Router, Planner, Simulation
+  note over CCE: AUTOPILOT signs in the TEE, MANUAL returns an unsigned transaction

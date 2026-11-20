@@ -1,0 +1,70 @@
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'trebuchet ms, verdana, arial, sans-serif','fontSize':'14px','primaryColor':'#ffffff','primaryTextColor':'#000000','primaryBorderColor':'#000000','lineColor':'#000000','secondaryColor':'#ffffff','secondaryTextColor':'#000000','secondaryBorderColor':'#000000','tertiaryColor':'#ffffff','tertiaryTextColor':'#000000','tertiaryBorderColor':'#000000','clusterBkg':'#ffffff','clusterBorder':'#000000','edgeLabelBackground':'#ffffff','titleColor':'#000000','noteBkgColor':'#ffffff','noteTextColor':'#000000','noteBorderColor':'#000000'}}}%%
+%% CrestFlow - Component Diagram (report level)
+%% Type: UML component view expressed as a Mermaid flowchart
+%% Rule: major components and the execution path only. Detail lives in the component documents.
+flowchart LR
+  subgraph USERS["Users"]
+    U["User or Admin<br/>Path A or Path B"]
+  end
+
+  subgraph INTF["Interface"]
+    API["REST<br/>API"]
+    COP["Copilot and x402"]
+  end
+
+  subgraph INTEL["Intelligence"]
+    direction TB
+    E1["E1 Portfolio"]
+    E2["E2 Risk"]
+    E3["E3 Yield"]
+    E5["E5 User"]
+    E4["E4 Strategy"]
+    E6["E6 Execution"]
+  end
+
+  subgraph EXEC["Execution"]
+    PIPE["Execution pipeline<br/>Router, Planner,<br/>Simulation, Policy, CCE"]
+  end
+
+  subgraph DATA["Data"]
+    direction TB
+    FKL["Financial Knowledge"]
+    PSM["Portfolio State"]
+    AUD["Audit"]
+    DB[("PostgreSQL and Redis")]
+  end
+
+  subgraph EXT["External"]
+    direction TB
+    IDP["Identity, KYC, signing"]
+    CHAIN["Chains and RPC"]
+  end
+
+  U --> API
+  U --> COP
+  API --> E1
+  API --> E5
+  COP --> E5
+
+  E1 --> E2
+  E1 --> E3
+  E2 --> E4
+  E3 --> E4
+  E4 --> E6
+  E5 --> E6
+
+  E6 -->|intent| PIPE
+  PIPE --> PSM
+  PSM --> E1
+
+  FKL --> E1
+  PSM --> DB
+  AUD --> DB
+  PIPE -.-> AUD
+
+  API <--> IDP
+  PIPE <--> CHAIN
+
+  classDef default fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000
+  classDef external fill:#ffffff,stroke:#000000,stroke-width:1px,stroke-dasharray:5 3,color:#000000
+  class IDP,CHAIN external

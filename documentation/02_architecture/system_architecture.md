@@ -12,9 +12,9 @@
 
 ## Architecture Overview
 
-- **Post-pivot architecture diagram:** [system-architecture-post-pivot.png](../docs/assets/system-architecture-post-pivot.png)
-- **Pre-pivot reference (superseded):** [system-architecture-pre-pivot.png](../docs/assets/system-architecture-pre-pivot.png)
-- **Legacy reference (superseded):** [system-architecture-before-pivot-legacy.png](../docs/assets/system-architecture-before-pivot-legacy.png)
+- **Post-pivot architecture diagram:** [system-architecture-post-pivot.png](../assets/system-architecture-post-pivot.png)
+- **Pre-pivot reference (superseded):** [system-architecture-pre-pivot.png](../assets/system-architecture-pre-pivot.png)
+- **Legacy reference (superseded):** [system-architecture-before-pivot-legacy.png](../assets/system-architecture-before-pivot-legacy.png)
 
 The Excalidraw source referenced by earlier revisions does not exist in the repository and the link has been removed.
 

@@ -1,0 +1,42 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"trebuchet ms, verdana, arial, sans-serif","fontSize":"14px","background":"#ffffff","primaryColor":"#ffffff","primaryTextColor":"#000000","primaryBorderColor":"#000000","secondaryColor":"#ffffff","secondaryTextColor":"#000000","secondaryBorderColor":"#000000","tertiaryColor":"#ffffff","tertiaryTextColor":"#000000","tertiaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","mainBkg":"#ffffff","nodeBorder":"#000000","clusterBkg":"#ffffff","clusterBorder":"#000000","edgeLabelBackground":"#ffffff","titleColor":"#000000","noteBkgColor":"#ffffff","noteTextColor":"#000000","noteBorderColor":"#000000","actorBkg":"#ffffff","actorBorder":"#000000","actorTextColor":"#000000","actorLineColor":"#000000","signalColor":"#000000","signalTextColor":"#000000","labelBoxBkgColor":"#ffffff","labelBoxBorderColor":"#000000","labelTextColor":"#000000","loopTextColor":"#000000","activationBkgColor":"#ffffff","activationBorderColor":"#000000","sequenceNumberColor":"#000000","altBackground":"#ffffff","classText":"#000000","attributeBackgroundColorOdd":"#ffffff","attributeBackgroundColorEven":"#ffffff","stateBkg":"#ffffff","stateBorder":"#000000","compositeBackground":"#ffffff","compositeBorder":"#000000","compositeTitleBackground":"#ffffff","stateLabelColor":"#000000","transitionColor":"#000000","transitionLabelColor":"#000000","sectionBkgColor":"#ffffff","altSectionBkgColor":"#ffffff","sectionBkgColor2":"#ffffff","taskBkgColor":"#ffffff","taskBorderColor":"#000000","taskTextColor":"#000000","taskTextDarkColor":"#000000","taskTextOutsideColor":"#000000","taskTextLightColor":"#000000","doneTaskBkgColor":"#ffffff","doneTaskBorderColor":"#000000","activeTaskBkgColor":"#ffffff","activeTaskBorderColor":"#000000","critBkgColor":"#ffffff","critBorderColor":"#000000","gridColor":"#000000","todayLineColor":"#000000"}}}%%
+%% CrestFlow - DFD Level 1: Subsystem Decomposition (report level)
+%% Type: data flow diagram, not UML
+flowchart LR
+  U["User and Admin"]
+  IDP["Identity providers"]
+  MKT["Market data"]
+  CHAIN["Chains and RPC"]
+  PAYF["x402 Facilitator"]
+
+  P1(("1.0<br/>Identity"))
+  P2(("2.0<br/>Intelligence"))
+  P3(("3.0<br/>Execution"))
+  P4(("4.0<br/>Portfolio state"))
+  P5(("5.0<br/>Audit"))
+  P6(("6.0<br/>Payments"))
+
+  DS1[("DS1<br/>PostgreSQL")]
+  DS2[("DS2<br/>Redis and BullMQ")]
+
+  U <--> P1
+  IDP <--> P1
+  P1 -->|user, KYC, goals| P2
+
+  MKT -->|market data| P2
+  DS2 -->|cache| P2
+  P2 -->|strategy plan| P3
+
+  P3 <--> CHAIN
+  P3 -->|executed<br/>actions| P4
+  P4 -->|snapshot| P2
+  P4 -->|portfolio view| U
+  P4 --> DS1
+
+  P1 -->|audit events| P5
+  P3 -->|audit events| P5
+  P6 -->|audit events| P5
+  P5 --> DS1
+
+  P6 <--> PAYF
+  P6 -->|authorized query| P2
+  P2 --> DS2

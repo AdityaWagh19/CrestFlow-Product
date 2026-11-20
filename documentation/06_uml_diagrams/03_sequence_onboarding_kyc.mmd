@@ -1,0 +1,36 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"trebuchet ms, verdana, arial, sans-serif","fontSize":"14px","background":"#ffffff","primaryColor":"#ffffff","primaryTextColor":"#000000","primaryBorderColor":"#000000","secondaryColor":"#ffffff","secondaryTextColor":"#000000","secondaryBorderColor":"#000000","tertiaryColor":"#ffffff","tertiaryTextColor":"#000000","tertiaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","mainBkg":"#ffffff","nodeBorder":"#000000","clusterBkg":"#ffffff","clusterBorder":"#000000","edgeLabelBackground":"#ffffff","titleColor":"#000000","noteBkgColor":"#ffffff","noteTextColor":"#000000","noteBorderColor":"#000000","actorBkg":"#ffffff","actorBorder":"#000000","actorTextColor":"#000000","actorLineColor":"#000000","signalColor":"#000000","signalTextColor":"#000000","labelBoxBkgColor":"#ffffff","labelBoxBorderColor":"#000000","labelTextColor":"#000000","loopTextColor":"#000000","activationBkgColor":"#ffffff","activationBorderColor":"#000000","sequenceNumberColor":"#000000","altBackground":"#ffffff","classText":"#000000","attributeBackgroundColorOdd":"#ffffff","attributeBackgroundColorEven":"#ffffff","stateBkg":"#ffffff","stateBorder":"#000000","compositeBackground":"#ffffff","compositeBorder":"#000000","compositeTitleBackground":"#ffffff","stateLabelColor":"#000000","transitionColor":"#000000","transitionLabelColor":"#000000","sectionBkgColor":"#ffffff","altSectionBkgColor":"#ffffff","sectionBkgColor2":"#ffffff","taskBkgColor":"#ffffff","taskBorderColor":"#000000","taskTextColor":"#000000","taskTextDarkColor":"#000000","taskTextOutsideColor":"#000000","taskTextLightColor":"#000000","doneTaskBkgColor":"#ffffff","doneTaskBorderColor":"#000000","activeTaskBkgColor":"#ffffff","activeTaskBorderColor":"#000000","critBkgColor":"#ffffff","critBorderColor":"#000000","gridColor":"#000000","todayLineColor":"#000000"}}}%%
+%% CrestFlow - Sequence Diagram: Onboarding and KYC (report level)
+%% Type: UML sequence diagram
+%% Rule: sign-in, wallet path, and KYC decision only.
+sequenceDiagram
+  actor User
+  participant Client as Browser and dApp
+  participant API as REST API
+  participant Identity as Auth and KYC
+  participant Provider as Google and KYC vendor
+  participant Wallet as Turnkey or user wallet
+
+  User->>Client: sign in with Google
+  Client->>API: authorization code
+  API->>Identity: create session
+  Identity-->>Client: JWT session
+
+  alt Path A - embedded wallet
+    Client->>API: provision wallet
+    API->>Wallet: create embedded wallet
+    Wallet-->>Client: wallet ready
+  else Path B - external wallet
+    Client->>API: link external wallet
+    API->>Wallet: verify wallet signature
+    Wallet-->>Client: wallet linked
+  end
+
+  Client->>API: submit KYC
+  API->>Identity: start verification
+  Identity->>Provider: check identity
+  Provider-->>Identity: decision
+  Identity-->>Client: KYC status and tier
+
+  note over Wallet: Path A keeps keys<br/>in the Turnkey TEE
+  note over Provider: KYC vendor is conditional<br/>on the two-week spike
+  note over Identity: Only APPROVED passes<br/>policy check 1

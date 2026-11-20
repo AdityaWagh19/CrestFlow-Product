@@ -1,8 +1,8 @@
 # CrestFlow Consolidated Documentation Index
 
 **Status:** Authoritative master index  
-**Version:** 2.0  
-**Last updated:** 18 November 2026  
+**Version:** 2.3  
+**Last updated:** 20 November 2026  
 **Structure:** Unified Documentation Repository (`documentation/`)  
 **Purpose:** Declare the class, owner, version, canonical scope, and relative path of every planning and architectural document.
 
@@ -43,34 +43,18 @@ documentation/
 │   ├── engine5_user_intelligence.md      # Persona clustering, GoalProfile, Copilot AI
 │   └── engine6_execution_intelligence.md # Authority filter, execution waterfall, ExecutionIntent
 │
-├── 04_uml_pack/                       # Lucidchart-ready UML & BE project diagram specifications
-│   ├── 00_INDEX.md                    # UML Pack master index, shape guides, and color palette
-│   ├── 01_component_diagram.md        # Component Diagram (47 elements, 19 interfaces)
-│   ├── 02_class_diagram.md            # Class Diagram (30+ domain entities, 36 relationships)
-│   ├── 03_seq_onboarding_kyc.md       # Sequence Diagram: User Onboarding & KYC
-│   ├── 04_seq_policy_evaluation.md    # Sequence Diagram: Policy Evaluation & Authorization
-│   ├── 05_seq_transaction_execution.md # Sequence Diagram: Transaction Execution Pipeline
-│   ├── 06_seq_cctp_bridge.md          # Sequence Diagram: CCTP V2 Cross-Chain Transfer
-│   ├── 07_seq_x402_payment.md         # Sequence Diagram: x402 Micropayment & Settlement
-│   ├── 08_state_saga_lifecycle.md     # State Machine: Execution Saga Lifecycle (18 states)
-│   ├── 09_state_kyc_lifecycle.md      # State Machine: KYC Lifecycle (6 states)
-│   ├── 10_state_delegation_lifecycle.md # State Machine: Autopilot Delegation Lifecycle
-│   ├── 11_deployment_diagram.md       # Deployment Diagram (infrastructure & trust boundaries)
-│   ├── 12_BE_system_architecture.md   # BE Report: System Architecture Overview
-│   ├── 13_BE_dfd_level0.md            # BE Report: DFD Level 0 Context Diagram (36 flows)
-│   ├── 14_BE_dfd_level1.md            # BE Report: DFD Level 1 Subsystem Decomposition
-│   ├── 15_BE_use_case.md              # BE Report: Use Case Diagram (40 UCs, 9 actors)
-│   ├── 16_BE_activity_diagram.md      # BE Report: Activity Diagram (5 swimlanes)
-│   ├── 17_BE_er_diagram.md            # BE Report: Entity-Relationship Diagram (29 tables)
-│   ├── 18_project_gantt.md            # Project Planning: Gantt Chart & Release Gates
-│   ├── 19_project_sdlc.md             # Project Planning: Iterative Incremental SDLC Model
-│   └── 20_unresolved_decisions.md     # Consolidated Open Questions, Flags & Assumptions
-│
 ├── 05_research_and_audits/            # Literature review, paper list & audit reports
 │   ├── literature_survey.md           # Comprehensive academic literature review
 │   ├── CrestFlow Literature Survey Papers List.csv # 54 indexed research papers
-│   ├── AUDIT_REPORT.md                # Architecture remediation audit report
+│   ├── AUDIT_REPORT.md                # Pre-remediation audit snapshot (historical findings)
+│   ├── REMEDIATION_REPORT.md          # 39-finding disposition and re-audit evidence
 │   └── integration_audit_report.md    # Pre-pivot cleanup & audit history
+│
+├── 06_uml_diagrams/                   # Current Mermaid source and rendered PNGs
+│   ├── README.md                      # Render guide, notation mapping, traceability
+│   ├── 01_component.mmd … 19_sdlc.mmd # 19 diagram sources; see §4
+│   ├── puppeteer-mono.json            # Monochrome render launch config
+│   └── png/                           # 19 rendered PNGs for the BE report
 │
 └── assets/                            # Architecture diagrams & graphic assets
     ├── system-architecture-post-pivot.png           # Current post-pivot system topology
@@ -86,8 +70,8 @@ documentation/
 |---|---|
 | **Authoritative** | Defines an immutable contract or rule. All other documents must link to it and must not restate its content. |
 | **Component** | Owns a specific subsystem or engine algorithm and local schemas. Shared types must reference `01_canonical/canonical_schemas.md`. |
-| **UML Specification** | Lucidchart-ready architectural and behavioral blueprints for visual modeling and BE project documentation. |
-| **Derived** | Summaries, cross-cutting indexes, and orientations. Must not define new contracts. |
+| **UML Source** | Current Mermaid diagram code rendered from canonical contracts. The README carries notation and traceability. |
+| **Derived** | Summaries, cross-cutting indexes, orientations, and generated PNG exports. Must not define new contracts. |
 | **Historical** | Retained for historical reference, audit trails, and context. |
 
 ---
@@ -119,31 +103,56 @@ documentation/
 | 21 | [`03_engines/engine4_strategy_optimization.md`](./03_engines/engine4_strategy_optimization.md) | Component | Engines | 2.0 | Strategy planning, cooldown gates, rebalancing |
 | 22 | [`03_engines/engine5_user_intelligence.md`](./03_engines/engine5_user_intelligence.md) | Component | Engines | 2.0 | Persona profiling, GoalProfile, Copilot AI |
 | 23 | [`03_engines/engine6_execution_intelligence.md`](./03_engines/engine6_execution_intelligence.md) | Component | Engines | 2.0 | Execution intent generation, waterfall logic |
-| 24 | [`04_uml_pack/00_INDEX.md`](./04_uml_pack/00_INDEX.md) | UML Specification | Architecture | 1.0 | UML pack register, visual standards, color scheme |
-| 25 | [`04_uml_pack/01_component_diagram.md`](./04_uml_pack/01_component_diagram.md) | UML Specification | Architecture | 1.0 | Component Diagram specification |
-| 26 | [`04_uml_pack/02_class_diagram.md`](./04_uml_pack/02_class_diagram.md) | UML Specification | Architecture | 1.0 | Class Diagram specification |
-| 27 | [`04_uml_pack/03_seq_onboarding_kyc.md`](./04_uml_pack/03_seq_onboarding_kyc.md) | UML Specification | Architecture | 1.0 | Sequence: User Onboarding & KYC |
-| 28 | [`04_uml_pack/04_seq_policy_evaluation.md`](./04_uml_pack/04_seq_policy_evaluation.md) | UML Specification | Architecture | 1.0 | Sequence: Policy Evaluation (9 checks) |
-| 29 | [`04_uml_pack/05_seq_transaction_execution.md`](./04_uml_pack/05_seq_transaction_execution.md) | UML Specification | Architecture | 1.0 | Sequence: Full Execution Pipeline |
-| 30 | [`04_uml_pack/06_seq_cctp_bridge.md`](./04_uml_pack/06_seq_cctp_bridge.md) | UML Specification | Architecture | 1.0 | Sequence: CCTP V2 Cross-Chain USDC Transfer |
-| 31 | [`04_uml_pack/07_seq_x402_payment.md`](./04_uml_pack/07_seq_x402_payment.md) | UML Specification | Architecture | 1.0 | Sequence: x402 Micropayment & Settlement |
-| 32 | [`04_uml_pack/08_state_saga_lifecycle.md`](./04_uml_pack/08_state_saga_lifecycle.md) | UML Specification | Architecture | 1.0 | State Machine: Execution Saga (18 states) |
-| 33 | [`04_uml_pack/09_state_kyc_lifecycle.md`](./04_uml_pack/09_state_kyc_lifecycle.md) | UML Specification | Architecture | 1.0 | State Machine: KYC Status Transitions |
-| 34 | [`04_uml_pack/10_state_delegation_lifecycle.md`](./04_uml_pack/10_state_delegation_lifecycle.md) | UML Specification | Architecture | 1.0 | State Machine: Autopilot Delegation Lifecycle |
-| 35 | [`04_uml_pack/11_deployment_diagram.md`](./04_uml_pack/11_deployment_diagram.md) | UML Specification | Architecture | 1.0 | Deployment Diagram & Trust Boundaries |
-| 36 | [`04_uml_pack/12_BE_system_architecture.md`](./04_uml_pack/12_BE_system_architecture.md) | UML Specification | Architecture | 1.0 | BE Report: System Architecture Narrative |
-| 37 | [`04_uml_pack/13_BE_dfd_level0.md`](./04_uml_pack/13_BE_dfd_level0.md) | UML Specification | Architecture | 1.0 | BE Report: DFD Level 0 Context Diagram |
-| 38 | [`04_uml_pack/14_BE_dfd_level1.md`](./04_uml_pack/14_BE_dfd_level1.md) | UML Specification | Architecture | 1.0 | BE Report: DFD Level 1 Subsystem Decomposition |
-| 39 | [`04_uml_pack/15_BE_use_case.md`](./04_uml_pack/15_BE_use_case.md) | UML Specification | Architecture | 1.0 | BE Report: Use Case Diagram & Actor Matrix |
-| 40 | [`04_uml_pack/16_BE_activity_diagram.md`](./04_uml_pack/16_BE_activity_diagram.md) | UML Specification | Architecture | 1.0 | BE Report: Activity Diagram (5 swimlanes) |
-| 41 | [`04_uml_pack/17_BE_er_diagram.md`](./04_uml_pack/17_BE_er_diagram.md) | UML Specification | Architecture | 1.0 | BE Report: ER Diagram (29 PostgreSQL tables) |
-| 42 | [`04_uml_pack/18_project_gantt.md`](./04_uml_pack/18_project_gantt.md) | UML Specification | Architecture | 1.0 | Project Planning: Gantt Schedule & Gates |
-| 43 | [`04_uml_pack/19_project_sdlc.md`](./04_uml_pack/19_project_sdlc.md) | UML Specification | Architecture | 1.0 | Project Planning: Iterative SDLC Model |
-| 44 | [`04_uml_pack/20_unresolved_decisions.md`](./04_uml_pack/20_unresolved_decisions.md) | UML Specification | Architecture | 1.0 | Open Questions, Decisions & Phase 2 Scope |
-| 45 | [`05_research_and_audits/literature_survey.md`](./05_research_and_audits/literature_survey.md) | Derived | Research | 2.0 | Academic literature review (54 papers) |
-| 46 | [`05_research_and_audits/CrestFlow Literature Survey Papers List.csv`](./05_research_and_audits/CrestFlow%20Literature%20Survey%20Papers%20List.csv) | Derived | Research | 2.0 | Paper catalog with DOIs and verification status |
-| 47 | [`05_research_and_audits/AUDIT_REPORT.md`](./05_research_and_audits/AUDIT_REPORT.md) | Derived | Architecture | 2.0 | Master audit report and remediation trail |
-| 48 | [`05_research_and_audits/integration_audit_report.md`](./05_research_and_audits/integration_audit_report.md) | Historical | Docs | 1.1 | Pre-pivot cleanup report (historical reference) |
-| 49 | [`assets/system-architecture-post-pivot.png`](./assets/system-architecture-post-pivot.png) | Component | Architecture | 2.0 | Current system architecture diagram |
-| 50 | [`assets/system-architecture-pre-pivot.png`](./assets/system-architecture-pre-pivot.png) | Historical | Architecture | 1.0 | Pre-pivot architecture diagram |
-| 51 | [`assets/system-architecture-before-pivot-legacy.png`](./assets/system-architecture-before-pivot-legacy.png) | Historical | Architecture | 1.0 | Legacy architecture graphic |
+| 24 | [`05_research_and_audits/literature_survey.md`](./05_research_and_audits/literature_survey.md) | Derived | Research | 2.0 | Academic literature review (54 papers) |
+| 25 | [`05_research_and_audits/CrestFlow Literature Survey Papers List.csv`](./05_research_and_audits/CrestFlow%20Literature%20Survey%20Papers%20List.csv) | Derived | Research | 2.0 | Paper catalog with DOIs and verification status |
+| 26 | [`05_research_and_audits/AUDIT_REPORT.md`](./05_research_and_audits/AUDIT_REPORT.md) | Historical | Architecture | 2.0 | Pre-remediation audit snapshot (39 findings) |
+| 27 | [`05_research_and_audits/integration_audit_report.md`](./05_research_and_audits/integration_audit_report.md) | Historical | Docs | 1.1 | Pre-pivot cleanup report (historical reference) |
+| 28 | [`assets/system-architecture-post-pivot.png`](./assets/system-architecture-post-pivot.png) | Component | Architecture | 2.0 | Current system architecture diagram |
+| 29 | [`assets/system-architecture-pre-pivot.png`](./assets/system-architecture-pre-pivot.png) | Historical | Architecture | 1.0 | Pre-pivot architecture diagram |
+| 30 | [`assets/system-architecture-before-pivot-legacy.png`](./assets/system-architecture-before-pivot-legacy.png) | Historical | Architecture | 1.0 | Legacy architecture graphic |
+| 31 | [`06_uml_diagrams/README.md`](./06_uml_diagrams/README.md) | UML Source | Architecture | 1.2 | Render guide, monochrome notation, traceability matrix |
+| 32 | [`06_uml_diagrams/`](./06_uml_diagrams/) | UML Source | Architecture | 1.2 | 19 current Mermaid diagrams (component, class, 5 sequences, 3 states, deployment, architecture, DFD 0/1, use case, activity, ER, Gantt, SDLC) |
+| 33 | [`06_uml_diagrams/png/`](./06_uml_diagrams/png/) | Derived | Architecture | 1.1 | 19 rendered PNGs (2x scale, white background, strictly monochrome) |
+| 34 | [`05_research_and_audits/REMEDIATION_REPORT.md`](./05_research_and_audits/REMEDIATION_REPORT.md) | Derived | Architecture | 1.0 | 39-finding disposition and re-audit evidence |
+
+---
+
+## 4. Current diagram pack
+
+The current diagram source is `06_uml_diagrams/`. Each `.mmd` file has a rendered PNG in `06_uml_diagrams/png/` at 2x scale with a white background and strictly black-and-white linework. The pack is rendered through `puppeteer-mono.json` so no colored subpixel text fringes are written.
+
+| # | Diagram | Type | PNG |
+|---:|---|---|---|
+| 01 | Component | UML component (flowchart approximation) | [PNG](./06_uml_diagrams/png/01_component.png) |
+| 02 | Domain class | UML class | [PNG](./06_uml_diagrams/png/02_class_domain.png) |
+| 03 | Onboarding and KYC | UML sequence | [PNG](./06_uml_diagrams/png/03_sequence_onboarding_kyc.png) |
+| 04 | Policy evaluation | UML sequence | [PNG](./06_uml_diagrams/png/04_sequence_policy.png) |
+| 05 | Execution pipeline | UML sequence | [PNG](./06_uml_diagrams/png/05_sequence_execution.png) |
+| 06 | CCTP V2 bridge | UML sequence | [PNG](./06_uml_diagrams/png/06_sequence_cctp.png) |
+| 07 | x402 payment | UML sequence | [PNG](./06_uml_diagrams/png/07_sequence_x402.png) |
+| 08 | Execution saga | UML state machine | [PNG](./06_uml_diagrams/png/08_state_saga.png) |
+| 09 | KYC lifecycle | UML state machine | [PNG](./06_uml_diagrams/png/09_state_kyc.png) |
+| 10 | Autopilot delegation | UML state machine | [PNG](./06_uml_diagrams/png/10_state_delegation.png) |
+| 11 | Deployment | UML deployment (flowchart approximation) | [PNG](./06_uml_diagrams/png/11_deployment.png) |
+| 12 | System architecture | Layered architecture view | [PNG](./06_uml_diagrams/png/12_system_architecture.png) |
+| 13 | Context | DFD level 0 | [PNG](./06_uml_diagrams/png/13_dfd_level0.png) |
+| 14 | Subsystems | DFD level 1 | [PNG](./06_uml_diagrams/png/14_dfd_level1.png) |
+| 15 | Use cases | UML use case (flowchart approximation) | [PNG](./06_uml_diagrams/png/15_use_case.png) |
+| 16 | Execution activity | UML activity | [PNG](./06_uml_diagrams/png/16_activity_execution.png) |
+| 17 | Core data model | ER diagram | [PNG](./06_uml_diagrams/png/17_er_core.png) |
+| 18 | MVP schedule | Gantt | [PNG](./06_uml_diagrams/png/18_gantt.png) |
+| 19 | SDLC | Iterative-incremental lifecycle view | [PNG](./06_uml_diagrams/png/19_sdlc.png) |
+
+See [`06_uml_diagrams/README.md`](./06_uml_diagrams/README.md) for rendering, notation, and the diagram-to-decision traceability matrix. PNGs are generated exports; re-render them after changing a `.mmd` file.
+
+---
+
+## 5. Change log
+
+| Version | Date | Change |
+|---|---|---|
+| 2.3 | 20 Nov 2026 | Reduced all 19 diagrams by one abstraction level; made the pack strictly monochrome; simplified the use-case view; added `puppeteer-mono.json` and refreshed diagram counts. |
+| 2.2 | 19 Nov 2026 | Removed the superseded diagram specifications and all references; added 19 rendered PNG exports; updated diagram navigation and register. |
+| 2.1 | 19 Nov 2026 | Added `06_uml_diagrams/` (19 Mermaid diagrams + README); added `REMEDIATION_REPORT.md`; marked `AUDIT_REPORT.md` historical; updated register and directory tree. |
+| 2.0 | 18 Nov 2026 | Canonical decisions v1.2, canonical schemas v2.0, and 22 component/planning documents rewritten after the pivot. |
+| 1.0 | Pre-pivot | Initial consolidated documentation index. |
